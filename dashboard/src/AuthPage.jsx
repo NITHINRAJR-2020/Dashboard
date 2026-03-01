@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-
-
-
+import { useNavigate } from "react-router-dom";
 import "./AuthPage.css";
 
-
 const AuthPage = () => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
 
   const [formData, setFormData] = useState({
@@ -48,16 +46,15 @@ const AuthPage = () => {
 
       console.log("Success:", data);
 
-      // Save access token if login
-      if (isLogin && data.access_token) {
+      if (isLogin) {
+        // Store token only on login
         localStorage.setItem("access_token", data.access_token);
-        window.location.href = "/dashboard";
-      }
 
-      if (!isLogin) {
+        // Redirect using React Router
+        navigate("/dashboard");
+      } else {
         alert("Signup successful! Please login.");
-        localStorage.setItem("access_token", data.access_token);
-        window.location.href = "/dashboard";
+        setIsLogin(true);
       }
 
     } catch (error) {

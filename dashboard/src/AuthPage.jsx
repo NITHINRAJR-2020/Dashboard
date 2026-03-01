@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+
+
+
 import "./AuthPage.css";
+
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);

@@ -1,3 +1,3 @@
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
-navigate("/dashboard");
+// import { useNavigate } from "react-router-dom";
+// const navigate = useNavigate();
+// navigate("/dashboard");

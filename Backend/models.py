@@ -15,3 +15,8 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+class dataInput(BaseModel):
+    num1:float
+    num2:float
+

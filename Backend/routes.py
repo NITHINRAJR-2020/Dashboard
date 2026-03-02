@@ -10,10 +10,7 @@ def dashboard(user = Depends(get_current_user)):
                 .eq("user_id", user.id) \
                 .single() \
                 .execute()
-<<<<<<< HEAD
-=======
         payload.data.update({"email": user.email})
->>>>>>> upstream/main
         return {
         "message": "Welcome Auth success",
         "user": payload.data

@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 
 from mlmodel import get_prediction
 from models import dataInput
-=======
->>>>>>> upstream/main
 from fastapi import FastAPI
 from login import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware

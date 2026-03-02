@@ -18,3 +18,8 @@ app.include_router(auth_router)
 @app.get('/Dashboard')
 def Dashboard():
     return {"message": "Welcome"}
+    
+@app.post("/predict")
+async def get_prediction(data:ModelInput):
+    result = (data.feature_a + data.feaute_b)/2
+    return {"prediction": result,"Status":"success"}

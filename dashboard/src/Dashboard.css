@@ -1,0 +1,58 @@
+.dashboard-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0D1B2A, #1B263B);
+  color: white;
+  padding: 40px;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.dashboard-header h2 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: #B56576;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #6D597A;
+}
+
+.card {
+  background: #1B263B;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.4);
+  max-width: 500px;
+}
+
+.card h3 {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #415A77;
+  padding-bottom: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.info-row span:first-child {
+  color: #6D597A;
+}

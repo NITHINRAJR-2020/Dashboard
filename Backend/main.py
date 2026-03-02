@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from login import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
+from routes import router as main_router
 app=FastAPI()
 app = FastAPI(title="FleetFlow", version="1.0.0")
 
@@ -14,7 +15,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(auth_router)
-
-@app.get('/Dashboard')
-def Dashboard():
-    return {"message": "Welcome"}
+app.include_router(main_router)

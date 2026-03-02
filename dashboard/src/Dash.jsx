@@ -1,47 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Dashboard.css";
 
-const Dashboard = () => {
-  const [data, setData] = useState(null);
-  const [load, setLoad] = useState(true);
+const Dashboard = ({user}) => {
+  const [data, setData] = useState(user);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("access_token");
-
-    if (!token) {
-      navigate("/");
-      return;
-    }
-
-    fetch("http://localhost:7000/dashboard", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) throw new Error("Unauthorized");
-        return res.json();
-      })
-      .then(data => {
-        setData(data)
-      })
-      .catch(() => {
-        localStorage.removeItem("access_token");
-        navigate("/");
-      })
-      .finally(() => setLoad(false));
-
-  }, [navigate]);
-
-  if (load) {
-    return <div>Loading...</div>;
+  const handleLogout=()=>{
+    localStorage.removeItem("access_token")
+    navigate("/")
   }
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+    <div className="dashboard-container">
+      
+      {/* Header */}
+      <div className="dashboard-header">
+        <h2>Welcome, {data.name || data.user?.name}</h2>
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
+
+      {/* User Info Card */}
+      <div className="card">
+        <h3>Profile Information</h3>
+        <div className="info-row">
+          <span>Email:</span>
+          <span>{data.email || data.user?.email}</span>
+        </div>
+        <div className="info-row">
+          <span>Role:</span>
+          <span>{data.role || data.user?.role}</span>
+        </div>
+        <div className="info-row">
+          <span>User ID:</span>
+          <span>{data.user_id || data.user?.id}</span>
+        </div>
+      </div>
+
     </div>
   );
 };

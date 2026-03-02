@@ -43,7 +43,7 @@ const AuthProtection = ({children}) => {
   if (!valid){
     return null;
   }
-  return React.cloneElement(children,{user:data});
+  return React.cloneElement(children,{user:data.user});
 }
 
 export default AuthProtection;

@@ -15,15 +15,11 @@ const AuthPage = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const endpoint = isLogin
       ? "http://localhost:7000/login"
       : "http://localhost:7000/signup";
@@ -31,9 +27,7 @@ const AuthPage = () => {
     try {
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
 
@@ -44,19 +38,13 @@ const AuthPage = () => {
         return;
       }
 
-      console.log("Success:", data);
-
       if (isLogin) {
-        // Store token only on login
         localStorage.setItem("access_token", data.access_token);
-
-        // Redirect using React Router
         navigate("/dashboard");
       } else {
         alert("Signup successful! Please login.");
         setIsLogin(true);
       }
-
     } catch (error) {
       console.error("Error:", error);
       alert("Server error");
@@ -66,66 +54,116 @@ const AuthPage = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>{isLogin ? "Login" : "Sign Up"}</h2>
 
-        <form onSubmit={handleSubmit}>
+        {/* Brand */}
+        <div className="auth-brand">
+          <div className="auth-brand-icon">M</div>
+          <span className="auth-brand-name">My App</span>
+        </div>
+
+        {/* Heading */}
+        <div className="auth-heading">
+          <h2>{isLogin ? "Welcome back" : "Create account"}</h2>
+          <p>{isLogin ? "Sign in to your account to continue" : "Fill in the details below to get started"}</p>
+        </div>
+
+        {/* Tab toggle */}
+        <div className="auth-tabs">
+          <button
+            className={"auth-tab" + (isLogin ? " active" : "")}
+            onClick={() => setIsLogin(true)}
+            type="button"
+          >
+            Login
+          </button>
+          <button
+            className={"auth-tab" + (!isLogin ? " active" : "")}
+            onClick={() => setIsLogin(false)}
+            type="button"
+          >
+            Sign Up
+          </button>
+        </div>
+
+        {/* Form */}
+        <form className="auth-form" onSubmit={handleSubmit} key={isLogin ? "login" : "signup"}>
 
           {!isLogin && (
             <>
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                onChange={handleChange}
-                required
-              />
+              <div className="auth-field">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="John Doe"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-              <select name="gender" onChange={handleChange} required>
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
+              <div className="auth-row">
+                <div className="auth-field">
+                  <label>Gender</label>
+                  <select name="gender" onChange={handleChange} required>
+                    <option value="">Select</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
 
-              <select name="role" onChange={handleChange} required>
-                <option value="">Select Role</option>
-                <option value="admin">Admin</option>
-                <option value="student">Student</option>
-                <option value="doctor">Doctor</option>
-                <option value="nurse">Nurse</option>
-                <option value="receptionist">Receptionist</option>
-                <option value="patient">Patient</option>
-              </select>
+                <div className="auth-field">
+                  <label>Role</label>
+                  <select name="role" onChange={handleChange} required>
+                    <option value="">Select</option>
+                    <option value="admin">Admin</option>
+                    <option value="student">Student</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="nurse">Nurse</option>
+                    <option value="receptionist">Receptionist</option>
+                    <option value="patient">Patient</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="auth-divider"><span>credentials</span></div>
             </>
           )}
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={handleChange}
-            required
-          />
+          <div className="auth-field">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-          />
+          <div className="auth-field">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          <button type="submit">
-            {isLogin ? "Login" : "Create Account"}
+          <button type="submit" className="auth-submit">
+            {isLogin ? "Sign In" : "Create Account"}
           </button>
         </form>
 
         <p className="switch-text">
           {isLogin ? "Don't have an account?" : "Already have an account?"}
           <span onClick={() => setIsLogin(!isLogin)}>
-            {isLogin ? " Sign Up" : " Login"}
+            {isLogin ? "Sign Up" : "Login"}
           </span>
         </p>
+
       </div>
     </div>
   );

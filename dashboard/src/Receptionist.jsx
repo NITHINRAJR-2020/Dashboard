@@ -5,10 +5,11 @@ import "./Receptionist.css";
 const Receptionist = ({ user }) => {
   const [data, setData] = useState(user);
   const navigate = useNavigate();
-
+  const [doctors, setDoctors] = useState([]);
   const [formData, setFormData] = useState({
     patient_name: "",
-    doctor_name: "",
+    department:"",
+    doctor_name: ""
   });
 
   const [patients, setPatients] = useState([]);
@@ -17,6 +18,34 @@ const Receptionist = ({ user }) => {
     setData(user);
   }, [user]);
 
+  useEffect(()=>{
+    const fetchDoctors = async () => {
+        const token = localStorage.getItem("access_token");
+    
+          if (!token) {
+            navigate("/");
+            return;
+          }
+        try{
+            const res=await fetch(`http://localhost:7000/doctors?department=${formData.department}`,{
+                headers: 
+                   { "Content-Type": "application/json" ,
+                      Authorization: `Bearer ${token}`
+                },
+            })
+            if (!res.ok) throw new Error("Unauthorized");
+            const doctorData=await res.json()
+            setDoctors(doctorData)
+            }
+
+        catch (error) {
+            localStorage.removeItem("access_token");
+            navigate("/");
+        }
+    };
+        fetchDoctors();
+        },[formData.department])
+      
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     navigate("/");
@@ -81,14 +110,36 @@ const Receptionist = ({ user }) => {
             onChange={handleChange}
             required
           />
-          <input
-            type="text"
-            name="doctor_name"
-            placeholder="Doctor Name"
-            value={formData.doctor_name}
-            onChange={handleChange}
-            required
-          />
+
+          <select
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Department</option>
+              <option value="Cardiology">Cardiology</option>
+              <option value="Orthopedics">Orthopedics</option>
+              <option value="Neurology">Neurology</option>
+            </select>
+        <select  
+              name="doctor_id"  
+              value={formData.doctor_id}  
+              onChange={handleChange}  
+              required  
+            >
+              <option value="">Select Doctor</option>  
+            
+              {doctors.map((doctorData) => (  
+                <option  
+                  key={doctorData.doctor_id}  
+                  value={doctorData.doctor_id}  
+                >
+                  {doctorData.name} ({doctorData.department})  
+                </option>  
+              ))}
+            
+            </select>
           <button type="submit">Add Patient</button>
         </form>
       </div>

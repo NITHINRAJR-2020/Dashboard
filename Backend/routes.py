@@ -31,5 +31,11 @@ def authrole(roles:AuthData , user=Depends(get_current_user)):
         return {
                 "user":payload.data
         }
-
-
+@router.get("/doctor")
+def getDoctor(department:str):
+        payload=supabase.table("doctor") \
+                .select("*") \
+                .eq("department", department) \
+                .single() \
+                .execute()
+        

@@ -1,5 +1,6 @@
-from pydantic import BaseModel, EmailStr 
-from datetime import date
+from pydantic import BaseModel, EmailStr
+from datetime import datetime,date
+
 from typing import List
 
 class UserCreate(BaseModel):
@@ -21,5 +22,11 @@ class dataInput(BaseModel):
     num1:float
     num2:float
 
-class AuthData(BaseModel):
-    roles:List[str]
+class appointmentData(BaseModel):
+    shop_id:str
+    service_type:str
+    appointment_date:datetime
+    notes:str =None
+    status:str="Pending"
+
+  
